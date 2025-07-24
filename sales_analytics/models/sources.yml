@@ -14,13 +14,89 @@ sources:
               - not_null
           - name: customer_id
             description: "ID do cliente que fez o pedido"
+            tests:
+              - not_null
+              - relationships:
+                  to: ref('stg_customers')
+                  field: customer_id
           - name: order_date
             description: "Data em que o pedido foi realizado"
+            tests:
+              - not_null
           - name: product_id
             description: "ID do produto vendido"
+            tests:
+              - not_null
+              - relationships:
+                  to: ref('stg_products')
+                  field: product_id
           - name: quantity
             description: "Quantidade de itens vendidos"
+            tests:
+              - not_null
+              - accepted_values:
+                  values: ['> 0']
           - name: unit_price
             description: "Preço unitário do produto"
+            tests:
+              - not_null
+              - accepted_values:
+                  values: ['> 0']
           - name: total_amount
             description: "Valor total do pedido (quantidade * preço unitário)"
+            tests:
+              - not_null
+              - accepted_values:
+                  values: ['> 0']
+
+      - name: raw_customers
+        description: "Tabela de clientes com informações cadastrais"
+        columns:
+          - name: customer_id
+            description: "ID único do cliente"
+            tests:
+              - unique
+              - not_null
+          - name: first_name
+            description: "Primeiro nome do cliente"
+          - name: last_name
+            description: "Sobrenome do cliente"
+          - name: email
+            description: "E-mail do cliente"
+            tests:
+              - not_null
+          - name: registration_date
+            description: "Data de cadastro do cliente"
+            tests:
+              - not_null
+          - name: segment
+            description: "Segmento do cliente (Premium/Regular)"
+          - name: country
+            description: "País do cliente"
+
+      - name: raw_products
+        description: "Tabela de produtos com informações de catálogo"
+        columns:
+          - name: product_id
+            description: "ID único do produto"
+            tests:
+              - unique
+              - not_null
+          - name: product_name
+            description: "Nome do produto"
+            tests:
+              - not_null
+          - name: category
+            description: "Categoria do produto"
+          - name: subcategory
+            description: "Subcategoria do produto"
+          - name: unit_cost
+            description: "Custo unitário do produto"
+            tests:
+              - not_null
+          - name: unit_price
+            description: "Preço de venda unitário"
+            tests:
+              - not_null
+          - name: created_at
+            description: "Data de criação do registro"
