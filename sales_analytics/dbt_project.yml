@@ -1,0 +1,45 @@
+
+name: 'sales_analytics'
+version: '1.0.0'
+
+# Configuração do perfil
+profile: 'sales_analytics'
+
+# Caminhos para os diferentes tipos de arquivos
+model-paths: ["models"]
+analysis-paths: ["analyses"]
+test-paths: ["tests"]
+seed-paths: ["seeds"]
+macro-paths: ["macros"]
+snapshot-paths: ["snapshots"]
+
+# Diretórios para limpeza
+clean-targets:
+  - "target"
+  - "dbt_packages"
+  - "logs"
+
+# Configurações globais
+config-version: 2
+
+# Configurações dos modelos
+models:
+  sales_analytics:
+    # Configurações padrão para todos os modelos
+    +materialized: view
+    
+    # Configurações específicas para cada pasta
+    staging:
+      +materialized: view
+      +schema: dbt_sales_staging
+      +tags: ["staging"]
+    
+    marts:
+      +materialized: table
+      +schema: dbt_sales_marts
+      +tags: ["marts"]
+    
+    utils:
+      +materialized: view
+      +schema: dbt_sales_utils
+      +tags: ["utils"]
